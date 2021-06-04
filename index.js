@@ -1,8 +1,9 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const Employee = require('./employee');
-const Intern = require('./intern');
-const Manager = require('./manager');
+const Employee = require('./Employee');
+const Intern = require('./Intern');
+const Manager = require('./Manager');
+const Path = require('Path');
 
 
 
@@ -19,7 +20,7 @@ inquirer
                 validate: (value) => { if (value) { return true } else { return 'I need a value to continue' } },
             },
             {
-                name: "Employee ID",
+                name: "Employee",
                 type: "input",
                 message: "What is your ID?",
                 validate: (value) => { if (value) { return true } else { return 'I need a value to continue' } },
