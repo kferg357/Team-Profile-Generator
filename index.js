@@ -3,7 +3,7 @@ const fs = require('fs');
 const Employee = require('./Employee');
 const Intern = require('./Intern');
 const Manager = require('./Manager');
-const Path = require('Path');
+// const Path = require('Path');
 
 
 
@@ -34,11 +34,11 @@ inquirer
             },
             
             {
-                name: "list",
-                type: "input",
+                name: "Title",
+                type: "list",
                 message: "What is your title?",
                 choices: ['Manager', 'Engineer', 'Intern',],
                 validate: (value) => { if (value) { return true } else { return 'I need a value to continue' } },
             },
         ]    
-    )
+    ).then()
