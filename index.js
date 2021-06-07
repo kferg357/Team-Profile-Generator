@@ -1,11 +1,11 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-// const Employee = require("./employee")
-// const Intern = require("./intern");
-// const Manager = require("./manager");
-const generateEngineer = renderFIle.createEngineer;
-const generateManager = renderFIle.createManager;
-const generateIntern = renderFIle.createIntern;
+const Employee = require("./employee")
+const Intern = require("./intern");
+const Manager = require("./manager");
+// const generateEngineer = renderFIle.createEngineer;
+// const generateManager = renderFIle.createManager;
+// const generateIntern = renderFIle.createIntern;
  let renderFIle = require ('./render');
  
 
