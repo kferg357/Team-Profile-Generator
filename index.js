@@ -95,9 +95,16 @@ function memberQuestions() {
                 }
             )
 }
-function generateManager (name, id, email, officeNumber) {
+function generateManager () {
     addNewMember()
 }
+function generateEngineer (name, id, email, github) {
+addNewMember()
+}
+function generateIntern() {
+    addNewMember()
+}
+
 
 function addNewMember() {
     inquirer
@@ -106,7 +113,7 @@ function addNewMember() {
                 name: "addNewMember",
                 type: "confirm",
                 message: "Add New Members?",
-                choices: ['Yes', 'No',],
+                // choices: ['Yes', 'No',],
                 validate: (value) => { if (value) { return true } else { return 'I need a value to continue' } } 
 
             }
