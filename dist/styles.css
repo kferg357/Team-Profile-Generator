@@ -1,0 +1,28 @@
+.teamNavVBar {
+    background-color: blue;
+    text-align: center;
+    color: white;
+    height: 100px;
+    width: 100%;
+    padding: 0%;
+    
+}
+
+body {
+font-family: sans-serif, Arial, Helvetica, sans-serif;
+margin: 0%;
+top: 0%;
+}
+
+.teamMemberCard {
+    width: 200px;
+    height:425px
+}
+
+.teamNumberTitle {
+    
+}
+
+.teamMemberbody {
+
+}
