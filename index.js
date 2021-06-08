@@ -1,8 +1,9 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const Employee = require("./employee")
-const Intern = require("./intern");
-const Manager = require("./manager");
+// 
+const Employee = require("./lib/Employee")
+const Intern = require("./lib/Intern");
+const Manager = require(".lib/Manager");
 // const generateEngineer = renderFIle.createEngineer;
 // const generateManager = renderFIle.createManager;
 // const generateIntern = renderFIle.createIntern;
@@ -101,6 +102,8 @@ function addNewMember() {
                 name: "addNewMember",
                 type: "confirm",
                 message: "Add New Members?",
+                choices: ['Yes', 'No',],
+                validate: (value) => { if (value) { return true } else { return 'I need a value to continue' } } 
 
             }
         ).then(
