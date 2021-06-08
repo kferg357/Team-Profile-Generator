@@ -1,9 +1,9 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 // 
-const Employee = require("./lib/Employee")
-const Intern = require("./lib/Intern");
-const Manager = require(".lib/Manager");
+const Employee = require("./lib/employee")
+const Intern = require("./lib/intern");
+const Manager = require("./lib/manager");
 // const generateEngineer = renderFIle.createEngineer;
 // const generateManager = renderFIle.createManager;
 // const generateIntern = renderFIle.createIntern;
@@ -95,6 +95,10 @@ function memberQuestions() {
                 }
             )
 }
+function generateManager (name, id, email, officeNumber) {
+    addNewMember()
+}
+
 function addNewMember() {
     inquirer
         .prompt(
