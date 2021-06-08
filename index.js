@@ -60,7 +60,7 @@ function memberQuestions() {
                                 }).then(
                                     function ({ github }) {
                                         generateEngineer(name, id, email, github)
-                                        addNewMember()
+                                         
                                     }
                                 )
                             break
@@ -73,7 +73,7 @@ function memberQuestions() {
                                 }).then(
                                     function ({ school }) {
                                         generateIntern(name, id, email, school)
-                                        addNewMember()
+                                        
                                     }
                                 )
                             break
@@ -86,7 +86,7 @@ function memberQuestions() {
                                 }).then(
                                     function ({ officeNumber }) {
                                         generateManager(name, id, email, officeNumber)
-                                        addNewMember()
+                                        
                                     }
 
 
@@ -124,7 +124,7 @@ function addNewMember() {
                 if (addNewMember) {
                     memberQuestions()
                 } else {
-                    renderHTML()
+                    generateHTML()
                 }
             }
         )
