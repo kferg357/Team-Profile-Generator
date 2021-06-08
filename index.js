@@ -1,16 +1,17 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 // 
-const Employee = require("./lib/employee")
-const Intern = require("./lib/intern");
-const Manager = require("./lib/manager");
+const Employee = require("./lib/Employee");
+const Intern = require("./lib/Intern");
+const Manager = require("./lib/Manager");
+const generatedHtmlFilePath ='./dist/TeamProfile.html'
 // const generateEngineer = renderFIle.createEngineer;
 // const generateManager = renderFIle.createManager;
 // const generateIntern = renderFIle.createIntern;
- let renderFIle = require ('./render');
+//  let manager = new Manager("Kenneth", "5", "kennethferguson90@gmail.com"),
  
 
-// const Path = require('Path');
+
 
 
 
@@ -50,7 +51,7 @@ function memberQuestions() {
             ]).then(
                 function ({ name, id, email, title }) {
                     switch (title) {
-                        case "Engineeer":
+                        case "Engineer":
                              inquirer
                                 .prompt({
                                     name: "github",
@@ -98,7 +99,7 @@ function memberQuestions() {
 function generateManager () {
     addNewMember()
 }
-function generateEngineer (name, id, email, github) {
+function generateEngineer () {
 addNewMember()
 }
 function generateIntern() {
@@ -131,6 +132,11 @@ function addNewMember() {
             console.log("Error adding new members", err)
             throw err
         })
+}
+
+
+function generateHTML(){
+    fs.writeFileSync(generatedHtmlFilePath,"");
 }
  memberQuestions()
 
