@@ -4,10 +4,10 @@
   color: white;
   height: 100px;
   width: 100%;
-  margin: 0%;
+  top: 0; 
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; 
 }
 
 .navBarTitle {
@@ -18,9 +18,9 @@ body {
   font-family: sans-serif, Arial, Helvetica;
   margin: 0%;
   height: 100%;
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
 }
 
 .cardBody {
