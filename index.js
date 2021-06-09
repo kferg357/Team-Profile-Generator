@@ -5,6 +5,7 @@ const Employee = require("./lib/Employee");
 const Intern = require("./lib/Intern");
 const Manager = require("./lib/Manager");
 const generatedHtmlFilePath ='./dist/TeamProfile.html';
+let addNewMembers = [];
 
 // const generateEngineer = renderFIle.createEngineer;
 // const generateManager = renderFIle.createManager;
