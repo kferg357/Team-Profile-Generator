@@ -134,7 +134,7 @@ function addNewMember() {
         })
 }
 
-function gerenateInitailHTML() {
+function generateInitialHTML() {
     return `<!DOCTYPE html>
     <html lang="en">
     
@@ -150,13 +150,39 @@ function gerenateInitailHTML() {
         <div class="teamNavBar">
             <h class="navBarTitle">My team</h>
         </div>
-        <div class="cardBody">`
+        <div class="cardBody">`;
 }
 
+function generateTeamMemberHtml(teamMember){
+return `<div class="teamMemberCard">
+            <div class="teamMemberTitle">
+                <h3>${teamMember.getName()} - ${teamMember.getRole()}</h3>
+            </div>
+            <div class="teamMemberBody">
+                <ul>
+                    <li>ID:${teamMember.getID()}</li>
+                    
+                    <li>email: <a href="mailto:${teamMember.getEmail()}">${teamMember.get.email()}</a></li>${teamMember.getRoleHtml()}
+                </ul>
+            </div>
+        </div>`;
+}
+
+function generateFinalHtml(){
+return ` </div>
+</body>
+</html>`;
+}
 
 
 function generateHTML(){
     fs.writeFileSync(generatedHtmlFilePath,"");
+    let htmlData = generateInitialHTML();
+    for(var a  in teamMember){
+        htmlData += generateTeamMemberHtml(teamMembers[a]);
+    }
+    htmlData += generateFinalHtml();
+    fs.writeFileSync(generatedHtmlFilePath,htmlData);
 }
  memberQuestions()
 
