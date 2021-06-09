@@ -4,7 +4,8 @@ const fs = require('fs');
 const Employee = require("./lib/Employee");
 const Intern = require("./lib/Intern");
 const Manager = require("./lib/Manager");
-const generatedHtmlFilePath ='./dist/TeamProfile.html'
+const generatedHtmlFilePath ='./dist/TeamProfile.html';
+
 // const generateEngineer = renderFIle.createEngineer;
 // const generateManager = renderFIle.createManager;
 // const generateIntern = renderFIle.createIntern;
@@ -153,16 +154,16 @@ function generateInitialHTML() {
         <div class="cardBody">`;
 }
 
-function generateTeamMemberHtml(teamMember){
-return `<div class="teamMemberCard">
-            <div class="teamMemberTitle">
-                <h3>${teamMember.getName()} - ${teamMember.getRole()}</h3>
+function generateaddNewMemberHtml(addNewMember){
+return `<div class="addNewMemberCard">
+            <div class="addNewMemberTitle">
+                <h3>${addNewMember.getName()} - ${addNewMember.getRole()}</h3>
             </div>
-            <div class="teamMemberBody">
+            <div class="addNewMemberBody">
                 <ul>
-                    <li>ID:${teamMember.getID()}</li>
+                    <li>ID:${addNewMember.getID()}</li>
                     
-                    <li>email: <a href="mailto:${teamMember.getEmail()}">${teamMember.get.email()}</a></li>${teamMember.getRoleHtml()}
+                    <li>email: <a href="mailto:${addNewMember.getEmail()}">${addNewMember.get.email()}</a></li>${addNewMember.getRoleHtml()}
                 </ul>
             </div>
         </div>`;
@@ -178,8 +179,8 @@ return ` </div>
 function generateHTML(){
     fs.writeFileSync(generatedHtmlFilePath,"");
     let htmlData = generateInitialHTML();
-    for(var a  in teamMember){
-        htmlData += generateTeamMemberHtml(teamMembers[a]);
+    for(var a  in addNewMembers){
+        htmlData += generateaddNewMemberHtml(addNewMembers[a]);
     }
     htmlData += generateFinalHtml();
     fs.writeFileSync(generatedHtmlFilePath,htmlData);
