@@ -1,13 +1,30 @@
-// const { expect } = require("@jest/globals")
+
 
 const Employee = require('../lib/Employee')
 
-describe("Employee class test for all methods", () => {
-    const employee = new Employee ('Kenneth',  'kennethferguson90@gmil.com' 5,)
-    it("getName function returns name", () => {
-        expect(employee.getName()).toBe('Kenneth')
-    });it("Should return the id when id is passed", () => {
-        expect(employee.getID()).toBe(5)
-    })
+test("Ability to set name using constructor function", () => {
+    const name = "Steve Alston";
+    const employee = new Employee(name);
+    expect(employee.name).toBe(name);
+  });
 
-})
+
+test("Ability to set the user ID using constructor function", () => {
+    const id = "1";
+    const employee = new Employee("Steve Alston", id, "stevealston@gmail.com");
+    expect(employee.id).toBe(id);
+  });
+
+
+test("Running getEmail() should return the supplied email", () => {
+    const email = "stevealston@gmail.com";
+    const employee = new Employee("Steve Alston", 1, email);
+    expect(employee.getEmail()).toBe(email);
+  });
+
+
+test("Running getRole() should return 'Employee'", () => {
+    const role = "Employee";
+    const employee = new Employee("Steve Alston", 1, "stevealston@gmail.com");
+    expect(employee.getRole()).toBe(role);
+  });
