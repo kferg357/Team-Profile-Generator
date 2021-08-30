@@ -4,14 +4,16 @@ const fs = require('fs');
 const Employee = require("./lib/Employee");
 const Intern = require("./lib/Intern");
 const Manager = require("./lib/Manager");
-const generatedHtmlFilePath ='./dist/TeamProfile.html';
-let addNewMembers = [];
+const generatedHtmlFilePath = './dist/TeamProfile.html';
+// let addNewMembers = [];
+// let addNewMember = [];
+
 
 // const generateEngineer = renderFIle.createEngineer;
 // const generateManager = renderFIle.createManager;
 // const generateIntern = renderFIle.createIntern;
 //  let manager = new Manager("Kenneth", "5", "kennethferguson90@gmail.com"),
- 
+
 
 
 
@@ -54,7 +56,7 @@ function memberQuestions() {
                 function ({ name, id, email, title }) {
                     switch (title) {
                         case "Engineer":
-                             inquirer
+                            inquirer
                                 .prompt({
                                     name: "github",
                                     type: "input",
@@ -62,7 +64,7 @@ function memberQuestions() {
                                 }).then(
                                     function ({ github }) {
                                         generateEngineer(name, id, email, github)
-                                         
+
                                     }
                                 )
                             break
@@ -75,7 +77,7 @@ function memberQuestions() {
                                 }).then(
                                     function ({ school }) {
                                         generateIntern(name, id, email, school)
-                                        
+
                                     }
                                 )
                             break
@@ -85,24 +87,27 @@ function memberQuestions() {
                                     name: "officeNumber",
                                     type: "input",
                                     message: "What is your office number?"
-                                }).then(
+                                }).then(answers => {
+                                    const manager = new Manager(answers.officeNumber)
+                                    // create html text for new manager
+                                    // add this new manager to generate initial Html
                                     function ({ officeNumber }) {
                                         generateManager(name, id, email, officeNumber)
-                                        
-                                    }
 
+                                    }
+                                }
 
                                 )
-                                break
+                            break
                     }
                 }
             )
 }
-function generateManager () {
+function generateManager() {
     addNewMember()
 }
-function generateEngineer () {
-addNewMember()
+function generateEngineer() {
+    addNewMember()
 }
 function generateIntern() {
     addNewMember()
@@ -113,31 +118,32 @@ function addNewMember() {
     inquirer
         .prompt(
             {
-                name: "addNewMember",
+                name: "addOtherMembers",
                 type: "confirm",
                 message: "Add New Members?",
                 // choices: ['Yes', 'No',],
-                validate: (value) => { if (value) { return true } else { return 'I need a value to continue' } } 
+                validate: (value) => { if (value) { return true } else { return 'I need a value to continue' } }
 
             }
         ).then(
-            function ({ addNewMember }) {
-                console.log("add new members", addNewMember)
-                if (addNewMember) {
+            function ({ addOtherMembers }) {
+                console.log("add other members", addOtherMembers)
+                if (addOtherMembers) {
                     memberQuestions()
                 } else {
                     generateHTML()
                 }
             }
         )
+
         .catch(err => {
             console.log("Error adding new members", err)
             throw err
         })
 }
 
-function generateInitialHTML() {
-    return `<!DOCTYPE html>
+let generateInitialHTML =
+    `<!DOCTYPE html>
     <html lang="en">
     
     <head>
@@ -153,7 +159,7 @@ function generateInitialHTML() {
             <h class="navBarTitle">My team</h>
         </div>
         <div class="cardBody">`;
-}
+
 
 function generateaddNewMemberHtml(addNewMember){
 return `<div class="addNewMemberCard">
@@ -163,28 +169,23 @@ return `<div class="addNewMemberCard">
             <div class="addNewMemberBody">
                 <ul>
                     <li>ID:${addNewMember.getID()}</li>
-                    
+
                     <li>email: <a href="mailto:${addNewMember.getEmail()}">${addNewMember.get.email()}</a></li>${addNewMember.getRoleHtml()}
                 </ul>
             </div>
         </div>`;
 }
 
-function generateFinalHtml(){
-return ` </div>
+const generateFinalHtml = ` </div>
 </body>
 </html>`;
-}
 
 
-function generateHTML(){
-    fs.writeFileSync(generatedHtmlFilePath,"");
-    let htmlData = generateInitialHTML();
-    for(var a  in addNewMembers){
-        htmlData += generateaddNewMemberHtml(addNewMembers[a]);
-    }
-    htmlData += generateFinalHtml();
-    fs.writeFileSync(generatedHtmlFilePath,htmlData);
+
+function generateHTML() {
+    // fs.writeFileSync(generatedHtmlFilePath, "");
+    generateInitialHTML += generateFinalHtml;
+    fs.writeFileSync(generatedHtmlFilePath, generateInitialHTML);
 }
- memberQuestions()
+memberQuestions()
 
