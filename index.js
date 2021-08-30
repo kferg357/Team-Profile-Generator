@@ -1,191 +1,193 @@
-const inquirer = require('inquirer');
-const fs = require('fs');
-// 
-const Employee = require("./lib/Employee");
+// Required packages
+const inquirer = require("inquirer");
+const fs = require("fs");
+const path = require("path");
+const fileDirectory = path.resolve(__dirname, "dist");
+const filePath = path.join(fileDirectory, "index.html");
+
+// Required module exports
+const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const Manager = require("./lib/Manager");
-const generatedHtmlFilePath = './dist/TeamProfile.html';
-// let addNewMembers = [];
-// let addNewMember = [];
+const renderHTML = require("./lib/generateHTML");
 
+// Employee array
+let employeesArr = [];
 
-// const generateEngineer = renderFIle.createEngineer;
-// const generateManager = renderFIle.createManager;
-// const generateIntern = renderFIle.createIntern;
-//  let manager = new Manager("Kenneth", "5", "kennethferguson90@gmail.com"),
+// Questions array for all employees
+const questions = [           
+    {
+        type: "input",
+        name: "name",
+        message: "What is the name of this employee?"
+    },
+    {
+        type: "input",
+        name: "id",
+        message: "What is the ID of this employee?"
+    },
+    {
+        type: "input",
+        name: "email",
+        message: "What is this employee's email?"
+    },
+    {
+        type: "list",
+        name: "role",
+        message: "What role does this employee have?",
+        choices: ["Engineer", "Intern", "Manager"]
+    }
+    ]
 
-
-
-
-
-
-
-function memberQuestions() {
-
-    inquirer
-        .prompt(
-            [
-                {
-                    name: "name",
-                    type: "input",
-                    message: "What is the team manager's name?",
-                    validate: (value) => { if (value) { return true } else { return 'I need a value to continue' } },
-                },
-                {
-                    name: "id",
-                    type: "input",
-                    message: "What is your ID?",
-                    validate: (value) => { if (value) { return true } else { return 'I need a value to continue' } },
-                },
-
-                {
-                    name: "email",
-                    type: "input",
-                    message: "What is your Email?",
-                    validate: (value) => { if (value) { return true } else { return 'I need a value to continue' } },
-                },
-
-                {
-                    name: "title",
-                    type: "list",
-                    message: "What is your title?",
-                    choices: ['Manager', 'Engineer', 'Intern',],
-                    validate: (value) => { if (value) { return true } else { return 'I need a value to continue' } },
-                },
-            ]).then(
-                function ({ name, id, email, title }) {
-                    switch (title) {
-                        case "Engineer":
-                            inquirer
-                                .prompt({
-                                    name: "github",
-                                    type: "input",
-                                    message: "What is your github username?"
-                                }).then(
-                                    function ({ github }) {
-                                        generateEngineer(name, id, email, github)
-
-                                    }
-                                )
-                            break
-                        case "Intern":
-                            inquirer
-                                .prompt({
-                                    name: "school",
-                                    type: "input",
-                                    message: "What school do you attend?"
-                                }).then(
-                                    function ({ school }) {
-                                        generateIntern(name, id, email, school)
-
-                                    }
-                                )
-                            break
-                        case "Manager":
-                            inquirer
-                                .prompt({
-                                    name: "officeNumber",
-                                    type: "input",
-                                    message: "What is your office number?"
-                                }).then(answers => {
-                                    const manager = new Manager(answers.officeNumber)
-                                    // create html text for new manager
-                                    // add this new manager to generate initial Html
-                                    function ({ officeNumber }) {
-                                        generateManager(name, id, email, officeNumber)
-
-                                    }
-                                }
-
-                                )
-                            break
-                    }
-                }
-            )
-}
-function generateManager() {
-    addNewMember()
-}
-function generateEngineer() {
-    addNewMember()
-}
-function generateIntern() {
-    addNewMember()
-}
-
-
-function addNewMember() {
-    inquirer
-        .prompt(
-            {
-                name: "addOtherMembers",
-                type: "confirm",
-                message: "Add New Members?",
-                // choices: ['Yes', 'No',],
-                validate: (value) => { if (value) { return true } else { return 'I need a value to continue' } }
-
-            }
-        ).then(
-            function ({ addOtherMembers }) {
-                console.log("add other members", addOtherMembers)
-                if (addOtherMembers) {
-                    memberQuestions()
+    // Questions for manager role
+    managerQuestions = [
+        {
+            type: "input",
+            name: "officeNumber",
+            message: "What is the manager's office number? (Required)",
+            validate: officeNumber => {
+                if (officeNumber) {
+                  return true;
                 } else {
-                    generateHTML()
+                  console.log("Please enter an office number!");
+                  return false;
                 }
+              }
+        }
+    ]
+
+    // Questions for engineer role
+    engineerQuestions = [
+        {
+            type: "input",
+            name: "github",
+            message: "What is the engineer's Github Username? (Required)",
+            validate: github => {
+                if (github) {
+                  return true;
+                } else {
+                  console.log("Please enter a GitHub username!");
+                  return false;
+                }
+              }
+        }
+    ]
+
+    // Questions for intern role
+    internQuestions = [
+
+        {
+            type: "input",
+            name: "school",
+            message: "What school is the intern from? (Required)",
+            validate: school => {
+                if (school) {
+                  return true;
+                } else {
+                  console.log("Please enter a school name!");
+                  return false;
+                }
+              }
+        }
+    ]
+
+    // Function to initialize the application
+    const init = () => {
+        if (fs.existsSync(filePath)) {
+            inquirer.prompt({
+                type: "confirm",
+                message: "It looks like the index.html file in the 'dist' folder already exists. Do you want to overwrite it?",
+                name: "overwrite"
+            }).then(async (response) => {
+    
+                let overwrite = response.overwrite;
+                if (await overwrite === true) {
+                    console.log("Please enter your team information:")
+                    newEmployee()
+                } else if (await overwrite === false) {
+                    console.log("Your index.html file in the 'dist' folder will not be overwritten. Please move the current index.html file to another folder before restarting.")
+                }
+            })
+        } else {
+            console.log("Welcome to the team profile generator. Please enter your team information below:")
+            newEmployee()
+        }
+    };   
+
+    // Function to create new employees
+    const newEmployee = async () => {
+        await inquirer.prompt(questions)
+          .then((response) => {
+            let name = response.name;
+            let id = response.id;
+            let email = response.email;
+            let role = response.role;
+            let officeNumber;
+            let github;
+            let school;
+
+            if (role === "Engineer") {
+            inquirer.prompt(engineerQuestions).then((response) =>{
+                github = response.github;
+                let employee = new Engineer(name, id, email, github);
+                employeesArr.push(employee);
+                addEmployee(employeesArr);
+                });
             }
-        )
+            else if (role === "Manager") {
+                inquirer.prompt(managerQuestions).then((response) =>{
+                        officeNumber = response.officeNumber;
+                        let employee = new Manager(name, id, email, officeNumber);
+                        employeesArr.push(employee);
+                        addEmployee(employeesArr);
+                    });
+                }
+            else if (role === "Intern") {
+                inquirer.prompt(internQuestions).then((response) =>{
+                        school = response.school;
+                        let employee = new Intern(name, id, email, school);
+                        employeesArr.push(employee);
+                        addEmployee(employeesArr);
+                    });
+            }
 
-        .catch(err => {
-            console.log("Error adding new members", err)
-            throw err
-        })
-}
-
-let generateInitialHTML =
-    `<!DOCTYPE html>
-    <html lang="en">
+        });    
     
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Team Profile</title>
-        <link rel="stylesheet" href="styles.css">
-    </head>
-    
-    <body>
-        <div class="teamNavBar">
-            <h class="navBarTitle">My team</h>
-        </div>
-        <div class="cardBody">`;
+    };
 
+    // Function that asks if you would like to add an employee. This will keep coming up until you are finished. When you're finished and say no, it will generate the index.html file
+    const addEmployee = async (array) => {
+       await inquirer
+        .prompt({
+            type: "confirm",
+            name: "addEmployee",
+            message: "Would you like to add an employee? (Required)"
 
-function generateaddNewMemberHtml(addNewMember){
-return `<div class="addNewMemberCard">
-            <div class="addNewMemberTitle">
-                <h3>${addNewMember.getName()} - ${addNewMember.getRole()}</h3>
-            </div>
-            <div class="addNewMemberBody">
-                <ul>
-                    <li>ID:${addNewMember.getID()}</li>
+        }).then(async (response) => {
+            var createEmployee = response.addEmployee;
+            if (await createEmployee === true) {
+                newEmployee();
+            } 
+            else if (await createEmployee === false) {
+            // If the dist directory does not exist, then it creates the dist directory before creating the index.html file
+            if (!fs.existsSync(fileDirectory)) {
+                fs.mkdirSync(fileDirectory)
+            }
 
-                    <li>email: <a href="mailto:${addNewMember.getEmail()}">${addNewMember.get.email()}</a></li>${addNewMember.getRoleHtml()}
-                </ul>
-            </div>
-        </div>`;
-}
+            // calls the renderHTML function in the generateHTML.js file to create the index.html
+            
+            fs.writeFile(filePath, renderHTML(array), (err) => {
+        
+                if (err) {
+                    return console.log(err);
+                }
+                
+                // Success message
+                console.log("Your index.html file has been created in the 'dist' folder!");
+            });
 
-const generateFinalHtml = ` </div>
-</body>
-</html>`;
-
-
-
-function generateHTML() {
-    // fs.writeFileSync(generatedHtmlFilePath, "");
-    generateInitialHTML += generateFinalHtml;
-    fs.writeFileSync(generatedHtmlFilePath, generateInitialHTML);
-}
-memberQuestions()
-
+        }
+    })
+};
+    // Function call to initialize app
+    init();
