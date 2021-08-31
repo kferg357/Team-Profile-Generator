@@ -78,5 +78,5 @@ function renderMain() {
         createIntern: createIntern,
         renderMain: renderMain
 
-//     }
+    }
 
